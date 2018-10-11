@@ -118,8 +118,11 @@ def get_random_state(n):
 '''
 Compute pairs of queens in conflict 
 '''
+
+
+# noinspection PyRedundantParentheses
 def compute_attacking_pairs(state):
-	number_attacking_pairs = 0
+	
 	# count number of elements in state
 	n = len(state)
 	nLimit = n-1
@@ -149,27 +152,32 @@ def compute_attacking_pairs(state):
 
 	# ==== COMPUTE ATTACKS
 
-	# Horizontal
+	# Horizontal | Checks if the same number exists elsewhere in the state[]
 	hAttacks = 0
-	for index in range(n):
-		selected = state[index]
-		print("SELECTED VAL: " + str(selected))
-		newRange = nLimit - index
-		for newIndex in range(newRange):
+	for stateIndex in range(n):
+		selected = state[stateIndex]
+		# print("SELECTED VAL: " + str(selected))
+		subRange = nLimit - stateIndex
+		for subIndex in range(subRange):
 			#print("new arr: " + str(state[index + newIndex + 1]))
-			if (state[index + newIndex + 1] == selected):
+			if (state[stateIndex + subIndex + 1] == selected):
 				hAttacks += 1
 
-	print("Horizontal attacks: " + str(hAttacks))
+	# print("Horizontal hits: " + str(hAttacks))
 
 	# Diagonals
 	qCol = 0
-	arrIndex = 0
+	stateIndex = 0
 	totalDiagonalHits = 0
 	while qCol <= nLimit:
-		qRow = state[arrIndex]
-		print(">>>>>>>>>>>>>Queen: @ " + str(qRow + 1) + "," + str(qCol + 1) + " : " + str(arrTable[qRow][qCol]))
+		# Get queen's row value
+		qRow = state[stateIndex]
+		#Queen's coordinate = its row and column.
+		qCoordTpl = (qRow+1, qCol+1)
+		#Print for confirmation. If Q shows up = ready
+		# print(">>>>>>>>>>>>>Queen: @ " + str(qCoordTpl) + " : " + str(arrTable[qRow][qCol]))
 	
+		
 		# Down Right (+ +)
 		# Current position = qRow, qCol
 		diagonalHit = 0
@@ -177,37 +185,41 @@ def compute_attacking_pairs(state):
 		subQCol = qCol + 1
 		while (subQRow <= n-1 and subQCol <= n-1):
 			if (arrTable[subQRow][subQCol] == arrTable[qRow][qCol]):
-				x = arrTable[qRow][qCol]
-				y = arrTable[subQRow][subQCol]
-				print("HIT: [" + x + "," + y + "]" + "[ (" + str(qRow + 1) + "," + str(qCol + 1) + ")(" + str(
-					subQRow + 1) + "," + str(subQCol + 1) + ")]")
+				
+				hitTpl = (arrTable[qRow][qCol], arrTable[subQRow][subQCol])
+				subQCoordTpl = (subQRow +1, subQCol + 1)
+				
+				# print("HIT: [" + str(hitTpl) + "]" + "[(" + str(qCoordTpl) + ") X (" + str(subQCoordTpl) + ")]")
 				diagonalHit += 1
-			subQCol += 1
 			subQRow += 1
-	
+			subQCol += 1
+			
+		
+		# Up Right (- +)
 		subQRow = qRow - 1
 		subQCol = qCol + 1
 		while (subQRow >= 0 and subQCol <= n-1):
 			if (arrTable[subQRow][subQCol] == arrTable[qRow][qCol]):
-				x = arrTable[qRow][qCol]
-				y = arrTable[subQRow][subQCol]
-				print("HIT: [" + x + "," + y + "]" + "[ (" + str(qRow + 1) + "," + str(qCol + 1) + ")(" + str(
-					subQRow + 1) + "," + str(subQCol + 1) + ")]")
+				hitTpl = (arrTable[qRow][qCol], arrTable[subQRow][subQCol])
+				subQCoordTpl = (subQRow + 1, subQCol + 1)
+				
+				# print("HIT: [" + str(hitTpl) + "]" + "[(" + str(qCoordTpl) + ") X (" + str(subQCoordTpl) + ")]")
 				diagonalHit += 1
-			subQCol += 1
 			subQRow -= 1
+			subQCol += 1
+			
 	
-		print ("DIAGONAL HITS  @ " + str(qRow + 1) + "," + str(qCol + 1) + ": " + str(diagonalHit))
+		# print ("DIAGONAL HITS  @ " + str(qRow + 1) + "," + str(qCol + 1) + ": " + str(diagonalHit))
 		totalDiagonalHits += diagonalHit
 		# iteration
 		qCol += 1
-		arrIndex += 1
+		stateIndex += 1
 
 	totalHits = totalDiagonalHits + hAttacks
 
-	print("TOTAL HITS: " + str(totalHits))
+	# print("TOTAL HITS: " + str(totalHits))
 	
-	
+	number_attacking_pairs = totalHits
 	
 	return number_attacking_pairs
 
@@ -216,7 +228,30 @@ The basic hill-climing algorithm for n queens
 '''
 def hill_desending_n_queens(state, comp_att_pairs):
 	final_state = []
-	# Your code here
+
+	
+	
+	'''
+	> Create empty table based on len(state) x len(state) size
+	
+	> Loop through table and fill out 'potential' numbers
+	
+	while (each column)
+		while(each row)
+			coordinate = (row,col)
+			newState = [ replace row value for each iteration ]
+			attacks = compute_attacking_pairs(newState)
+			potentialTable[r][c] = attacks
+			
+			
+			keep going until every place is filled out
+	
+	> By this point you will have a table for the FIRST state array about what happens when you move a queen up or down
+	
+	> now idk what to do.
+	'''
+	
+	
 	return final_state
 
 '''
