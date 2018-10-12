@@ -228,7 +228,31 @@ The basic hill-climing algorithm for n queens
 '''
 def hill_desending_n_queens(state, comp_att_pairs):
 	final_state = []
-
+	
+	oriState = state
+	n = len(state)
+	nLimit = n-1
+	
+	colStateIndex = 0
+	minCol = 0
+	minRow = 0
+	
+	potentialRow = 0
+	while colStateIndex <= nLimit:
+		# for each column in state[]
+		print(">> Column " + str(colStateIndex) + " of " + str(nLimit))
+		potentialRow = 0
+		# Reset state here
+		while potentialRow <= nLimit:
+			
+			state[colStateIndex] = potentialRow
+			print state
+			#keep track of minimum x value (change variable names after)
+			x=comp_att_pairs(state)
+			print ("Conflicts at "+ str(potentialRow) + "," + str(colStateIndex) + " is: " + str(x))
+			potentialRow+=1
+		colStateIndex+= 1
+	
 	
 	
 	'''
