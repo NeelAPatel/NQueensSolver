@@ -6,49 +6,72 @@ import random
 '''
 ''' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ '''
 
+bfsQueue = []
+dfsQueue = []
+UCQueue = []
+AStrQueue = []
+
 '''
 BFS add to queue 
 '''
 def add_to_queue_BFS(node_id, parent_node_id, cost, initialize=False):
 	# Your code here
-	 return
+	bfsQueue.append((node_id, parent_node_id))
+	# Nodes go at the end of the queue
+	return
 
 '''
-BFS add to queue 
+BFS check if empty
 '''
 def is_queue_empty_BFS():
 	# Your code here
-	return False
+	if bfsQueue:
+		return False
+	else:
+		return True
 
 '''
 BFS pop from queue
 '''
 def pop_front_BFS():
-	(node_id, parent_node_id) = (0, 0)
+	(node_id, parent_node_id) = bfsQueue.pop(0)
+	#first index
 	# Your code here
 	return (node_id, parent_node_id)
+
+
+
 
 '''
 DFS add to queue 
 '''
 def add_to_queue_DFS(node_id, parent_node_id, cost, initialize=False):
 	# Your code here
+	dfsQueue.insert(0, (node_id,parent_node_id))
+	#insert node at front
 	return
 
 '''
-DFS add to queue 
+DFS check if empty
 '''
 def is_queue_empty_DFS():
 	# Your code here
-	return False
+	if dfsQueue:
+		return False
+	else:
+		return True
 
 '''
 DFS pop from queue
 '''
 def pop_front_DFS():
-	(node_id, parent_node_id) = (0, 0)
+	(node_id, parent_node_id) = dfsQueue.pop(0)
+	#pop front node
 	# Your code here
 	return (node_id, parent_node_id)
+
+
+
 
 '''
 UC add to queue 
@@ -58,11 +81,13 @@ def add_to_queue_UC(node_id, parent_node_id, cost, initialize=False):
 	return
 
 '''
-UC add to queue 
+UC check if empty
 '''
 def is_queue_empty_UC():
-	# Your code here
-	return False
+	if UCQueue:
+		return False
+	else:
+		return True
 
 '''
 UC pop from queue
@@ -72,6 +97,8 @@ def pop_front_UC():
 	# Your code here
 	return (node_id, parent_node_id)
 
+
+
 '''
 A* add to queue 
 '''
@@ -80,11 +107,13 @@ def add_to_queue_ASTAR(node_id, parent_node_id, cost, initialize=False):
 	return
 
 '''
-A* add to queue 
+A* add to queue
 '''
 def is_queue_empty_ASTAR():
-	# Your code here
-	return False
+	if AStrQueue:
+		return False
+	else:
+		return True
 
 '''
 A* pop from queue
@@ -93,6 +122,9 @@ def pop_front_ASTAR():
 	(node_id, parent_node_id) = (0, 0)
 	# Your code here
 	return (node_id, parent_node_id)
+
+
+
 
 ''' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ '''
 '''
@@ -108,10 +140,12 @@ def get_random_state(n):
 	state = []
 	# GENERATE nQueens
 	# n = 8
-	for x in range(n):
-		state.append(random.randint(0, n-1))
-		# print(state)
+	# for x in range(n):
+	# 	state.append(random.randint(0, n-1))
+	# 	# print(state)
 	
+	
+	state = [4,5,7,5,2,5,1]
 	print state
 	return state
 
