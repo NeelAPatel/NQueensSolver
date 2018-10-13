@@ -139,13 +139,13 @@ Compute a random state
 def get_random_state(n):
 	state = []
 	# GENERATE nQueens
-	# n = 8
-	# for x in range(n):
-	# 	state.append(random.randint(0, n-1))
-	# 	# print(state)
+	#n = 8
+	for x in range(n):
+		state.append(random.randint(0, n-1))
+		# print(state)
 	
 	
-	state = [4,5,7,5,2,5,1]
+	# state = [4,5,7,5,2,5,1]
 	print state
 	return state
 
@@ -263,31 +263,84 @@ The basic hill-climing algorithm for n queens
 def hill_desending_n_queens(state, comp_att_pairs):
 	final_state = []
 	
-	oriState = state
+	
+	#Copy state into ORI state for safe keeping
+	oriState = []
+	for i in range(len(state)):
+		oriState.append(state[i])
+	
+	oriConflicts = comp_att_pairs(oriState)
+	
+	#print(state)
+	#print(oriState)
+	
 	n = len(state)
 	nLimit = n-1
 	
-	colStateIndex = 0
-	minCol = 0
-	minRow = 0
+	prevConflicts = oriConflicts
+	minCol = n + 1
+	minRow = n + 1
 	
-	potentialRow = 0
-	while colStateIndex <= nLimit:
-		# for each column in state[]
-		print(">> Column " + str(colStateIndex) + " of " + str(nLimit))
-		potentialRow = 0
-		# Reset state here
-		while potentialRow <= nLimit:
+	minConflicts = oriConflicts -1
+	while (1):
+		print("START ITERATION")
+		colStateIndex = 0
+		
+		
+		minConflicts = comp_att_pairs(state)
+		print("Minimum value set to: " +str(minConflicts))
+		while colStateIndex <= nLimit:
+			# for each column in state[]
+			print(">> Column " + str(colStateIndex) + " of " + str(nLimit))
+			potentialRow = 0
+			originalValue = state[colStateIndex]
 			
-			state[colStateIndex] = potentialRow
-			print state
-			#keep track of minimum x value (change variable names after)
-			x=comp_att_pairs(state)
-			print ("Conflicts at "+ str(potentialRow) + "," + str(colStateIndex) + " is: " + str(x))
-			potentialRow+=1
-		colStateIndex+= 1
-	
-	
+			
+			# print ("State RESET: " + str(state))
+			
+			while potentialRow <= nLimit:
+				
+				state[colStateIndex] = potentialRow
+				# print state
+				#keep track of minimum x value (change variable names after)
+				tempMin = comp_att_pairs(state)
+				print ("Conflicts at "+ str(potentialRow) + "," + str(colStateIndex) + " is: " + str(tempMin))
+				
+				if (tempMin < minConflicts):
+					minConflicts = tempMin
+					minCol = colStateIndex
+					minRow = potentialRow
+					
+				potentialRow+=1
+			
+			minTuple = (minConflicts, "@", minRow, minCol)
+			print(">>> So far the minimum is: " + str(minTuple))
+			state[colStateIndex] = originalValue
+			colStateIndex+= 1
+		
+		
+		#Just for checking
+		newState = []
+		for i in range(len(state)):
+			newState.append(state[i])
+			
+		newState[minCol] = minRow
+		
+		print("Changing states from " + str(state) + " to " + str(newState))
+		print("Conflicts lowered from " + str(comp_att_pairs(state)) + " to " + str(comp_att_pairs(newState)))
+		
+		#Keep this
+		state[minCol] = minRow
+		if (minConflicts == 0):
+			print("Broken with 0")
+			break
+		elif (prevConflicts == minConflicts):
+			print("Broken with matching prev and curr conflicts")
+			break
+		else:
+			prevConflicts = minConflicts
+		
+	print("BROKEN :D")
 	
 	'''
 	> Create empty table based on len(state) x len(state) size
@@ -310,7 +363,7 @@ def hill_desending_n_queens(state, comp_att_pairs):
 	'''
 	
 	
-	return final_state
+	return state
 
 '''
 Hill-climing algorithm for n queens with restart
@@ -318,6 +371,14 @@ Hill-climing algorithm for n queens with restart
 def n_queens(n, get_rand_st, comp_att_pairs, hill_descending):
 	final_state = []
 	# Your code here
+	
+	conflicts = n * n
+	while (conflicts != 0):
+		state = get_random_state(n)
+		final_state = hill_descending(state, comp_att_pairs)
+		conflicts = comp_att_pairs(final_state)
+	
+	
 	return final_state
 
 

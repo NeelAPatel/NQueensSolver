@@ -117,7 +117,7 @@ if __name__ == "__main__":
     print
     print "The n-queens problem" 
 
-    n = 8
+    n = 30
     # Get a basic state
     state = mp.get_random_state(n)
     print "A random state: " + str(state) + ", conflicting pairs: " + str(mp.compute_attacking_pairs(state))
