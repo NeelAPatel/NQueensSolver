@@ -122,22 +122,22 @@ if __name__ == "__main__":
     print "A* (consistent) path: " + str(path) + ", cost: " + str(cost) \
           + ", #expansions: " + str(expansion_count)
 
-    # print
-    # print "The n-queens problem"
-    #
-    # n = 8
-    # # Get a basic state
-    # state = mp.get_random_state(n)
-    # print "A random state: " + str(state) + ", conflicting pairs: " + str(mp.compute_attacking_pairs(state))
-    #
-    # # Call hill-climbing once
-    # new_state = mp.hill_desending_n_queens(state, mp.compute_attacking_pairs)
-    # print "Final state after hill-climbing: " + str(new_state) + ", conflicting pairs: " \
-    #       + str(mp.compute_attacking_pairs(new_state))
-    #
-    # # Get a fully solved state for a given n
-    # print "A valid solution: " + str(mp.n_queens(n,
-    #     mp.get_random_state, mp.compute_attacking_pairs,mp.hill_desending_n_queens))
+    print
+    print "The n-queens problem"
+
+    n = 30
+    # Get a basic state
+    state = mp.get_random_state(n)
+    print "A random state: " + str(state) + ", conflicting pairs: " + str(mp.compute_attacking_pairs(state))
+
+    # Call hill-climbing once
+    new_state = mp.hill_desending_n_queens(state, mp.compute_attacking_pairs)
+    print "Final state after hill-climbing: " + str(new_state) + ", conflicting pairs: " \
+          + str(mp.compute_attacking_pairs(new_state))
+
+    # Get a fully solved state for a given n
+    print "A valid solution: " + str(mp.n_queens(n,
+        mp.get_random_state, mp.compute_attacking_pairs,mp.hill_desending_n_queens))
 
     
 

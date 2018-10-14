@@ -401,16 +401,23 @@ def n_queens(n, get_rand_st, comp_att_pairs, hill_descending):
 	final_state = []
 	# Your code here
 	conflicts = n
+	#iteration = 0
 	if (n > 3):
 		while (conflicts != 0):
 			#print("RESET!!")
+			
+			#print("ITERATION #" + str(iteration))
 			state = get_rand_st(n)
 			final_state = hill_descending(state, comp_att_pairs)
 			conflicts = comp_att_pairs(final_state)
+			#print("Conflicts: " + str(conflicts) + " | State: " + str(final_state))
+			#iteration+=1
 	else:
-		state = get_rand_st(n)
-		final_state = hill_descending(state, comp_att_pairs)
-		conflicts = comp_att_pairs(final_state)
+		# state = get_rand_st(n)
+		# final_state = hill_descending(state, comp_att_pairs)
+		# conflicts = comp_att_pairs(final_state)
+	
+		final_state.append("No Solution for given n value.")
 	
 	
 	return final_state
