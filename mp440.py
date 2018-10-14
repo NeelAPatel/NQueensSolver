@@ -187,7 +187,7 @@ def get_random_state(n):
 	
 	
 	# state = [4,5,7,5,2,5,1]
-	print state
+	#print state
 	return state
 
 
@@ -332,15 +332,15 @@ def hill_desending_n_queens(state, comp_att_pairs):
 	
 	minConflicts = oriConflicts - 1
 	while (1):
-		print("START ITERATION")
+		#print("START ITERATION")
 		colStateIndex = 0
 		
 		
 		minConflicts = comp_att_pairs(state)
-		print("Minimum value set to: " +str(minConflicts))
+		#print("Minimum value set to: " +str(minConflicts))
 		while colStateIndex <= nLimit:
 			# for each column in state[]
-			print(">> Column " + str(colStateIndex) + " of " + str(nLimit))
+			#print(">> Column " + str(colStateIndex) + " of " + str(nLimit))
 			potentialRow = 0
 			originalValue = state[colStateIndex] - 1
 			
@@ -353,7 +353,7 @@ def hill_desending_n_queens(state, comp_att_pairs):
 				# print state
 				#keep track of minimum x value (change variable names after)
 				tempMin = comp_att_pairs(state)
-				print ("Conflicts at "+ str(potentialRow) + "," + str(colStateIndex) + " is: " + str(tempMin))
+				#print ("Conflicts at "+ str(potentialRow) + "," + str(colStateIndex) + " is: " + str(tempMin))
 				
 				if (tempMin < minConflicts):
 					minConflicts = tempMin
@@ -363,7 +363,7 @@ def hill_desending_n_queens(state, comp_att_pairs):
 				potentialRow+=1
 			
 			minTuple = (minConflicts, "@", minRow, minCol)
-			print(">>> So far the minimum is: " + str(minTuple))
+			#print(">>> So far the minimum is: " + str(minTuple))
 			state[colStateIndex] = originalValue + 1
 			colStateIndex+= 1
 		
@@ -375,21 +375,21 @@ def hill_desending_n_queens(state, comp_att_pairs):
 		 
 		newState[minCol] = minRow+1
 		
-		print("Changing states from " + str(state) + " to " + str(newState))
-		print("Conflicts lowered from " + str(comp_att_pairs(state)) + " to " + str(comp_att_pairs(newState)))
+		#print("Changing states from " + str(state) + " to " + str(newState))
+		#print("Conflicts lowered from " + str(comp_att_pairs(state)) + " to " + str(comp_att_pairs(newState)))
 		
 		#Keep this
 		state[minCol] = minRow+1
 		if (minConflicts == 0):
-			print("Broken with 0")
+			#print("Broken with 0")
 			break
 		elif (prevConflicts == minConflicts):
-			print("Broken with matching prev and curr conflicts")
+			#print("Broken with matching prev and curr conflicts")
 			break
 		else:
 			prevConflicts = minConflicts
 		
-	print("Hill descending ends here!")
+	#print("Hill descending ends here!")
 
 	
 	return state
@@ -403,7 +403,7 @@ def n_queens(n, get_rand_st, comp_att_pairs, hill_descending):
 	conflicts = n
 	if (n > 3):
 		while (conflicts != 0):
-			print("RESET!!")
+			#print("RESET!!")
 			state = get_rand_st(n)
 			final_state = hill_descending(state, comp_att_pairs)
 			conflicts = comp_att_pairs(final_state)
