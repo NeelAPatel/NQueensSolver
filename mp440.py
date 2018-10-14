@@ -9,8 +9,8 @@ import random
 bfsQueue = []
 dfsQueue = []
 UCQueue = []
-AStrQueue = []
 
+AStrQueue = []
 '''
 BFS add to queue 
 '''
@@ -78,6 +78,26 @@ UC add to queue
 '''
 def add_to_queue_UC(node_id, parent_node_id, cost, initialize=False):
 	# Your code here
+	
+	if (initialize == True):
+		#AddToQueue is called for the very first time
+		#initialize queue structure
+		# print("New UC Queue!")
+		# print("Inserting: " + str((node_id, parent_node_id, cost)))
+		UCQueue.append((node_id, parent_node_id, cost))
+		
+	else:
+		#2nd onwards
+		x=len(UCQueue)
+		# print("New Node: " + str((node_id, parent_node_id, cost)))
+		for index in range(x):
+			# print("Comparing to: " + str(UCQueue[index][2]))
+			if (cost < UCQueue[index][2]):
+				UCQueue.insert(index, (node_id, parent_node_id, cost))
+				#print("Inserting at " + str(index) + "  " + str((node_id, parent_node_id, cost)))
+				break
+		UCQueue.append((node_id, parent_node_id, cost))
+	
 	return
 
 '''
@@ -93,7 +113,7 @@ def is_queue_empty_UC():
 UC pop from queue
 '''
 def pop_front_UC():
-	(node_id, parent_node_id) = (0, 0)
+	(node_id, parent_node_id, cost) = UCQueue.pop(0)
 	# Your code here
 	return (node_id, parent_node_id)
 
@@ -104,6 +124,23 @@ A* add to queue
 '''
 def add_to_queue_ASTAR(node_id, parent_node_id, cost, initialize=False):
 	# Your code here
+	
+	if initialize:
+		# del AStrQueue[:]  # make sure the list is empty before beginning
+		del AStrQueue[:]
+		#print("New AC Queue!")
+		#print("Inserting: " + str((node_id, parent_node_id, cost)))
+		AStrQueue.append((node_id, parent_node_id, cost))
+	else:
+		x=len(AStrQueue)
+		#print("New Node: " + str((node_id, parent_node_id, cost)))
+		for n in range(x):
+			if cost < AStrQueue[n][2]:
+				AStrQueue.insert(n, (node_id, parent_node_id, cost))
+				break
+				
+		AStrQueue.append((node_id, parent_node_id, cost))
+	
 	return
 
 '''
@@ -119,7 +156,7 @@ def is_queue_empty_ASTAR():
 A* pop from queue
 '''
 def pop_front_ASTAR():
-	(node_id, parent_node_id) = (0, 0)
+	(node_id, parent_node_id, cost) = AStrQueue.pop(0)
 	# Your code here
 	return (node_id, parent_node_id)
 
@@ -138,10 +175,14 @@ Compute a random state
 '''
 def get_random_state(n):
 	state = []
+	if (n <= 0):
+		return state
+	
+	
 	# GENERATE nQueens
 	#n = 8
 	for x in range(n):
-		state.append(random.randint(0, n-1))
+		state.append(random.randint(1, n))
 		# print(state)
 	
 	
@@ -149,11 +190,10 @@ def get_random_state(n):
 	print state
 	return state
 
+
 '''
 Compute pairs of queens in conflict 
 '''
-
-
 # noinspection PyRedundantParentheses
 def compute_attacking_pairs(state):
 	
@@ -164,7 +204,7 @@ def compute_attacking_pairs(state):
 	
 	# Create table: Table of empty rows
 	arrTable = [[] for _ in range(n)]
-	#print arrTable
+	# print arrTable
 
 	# Initialize table:
 	rowIndex = 0
@@ -174,15 +214,15 @@ def compute_attacking_pairs(state):
 		#print arrTable
 		rowIndex += 1
 		#print("============")
-	#print arrTable
+	# print arrTable
 	
 	# add queens
 	colIndex = 0
 	while (colIndex <= nLimit):
-		rowVal = state[colIndex]
+		rowVal = state[colIndex] - 1
 		arrTable[rowVal][colIndex] = 'Q'
 		colIndex += 1
-	#print arrTable
+	# print arrTable
 
 	# ==== COMPUTE ATTACKS
 
@@ -193,7 +233,7 @@ def compute_attacking_pairs(state):
 		# print("SELECTED VAL: " + str(selected))
 		subRange = nLimit - stateIndex
 		for subIndex in range(subRange):
-			#print("new arr: " + str(state[index + newIndex + 1]))
+			# print("new arr: " + str(state[index + newIndex + 1]))
 			if (state[stateIndex + subIndex + 1] == selected):
 				hAttacks += 1
 
@@ -205,7 +245,7 @@ def compute_attacking_pairs(state):
 	totalDiagonalHits = 0
 	while qCol <= nLimit:
 		# Get queen's row value
-		qRow = state[stateIndex]
+		qRow = state[stateIndex] - 1
 		#Queen's coordinate = its row and column.
 		qCoordTpl = (qRow+1, qCol+1)
 		#Print for confirmation. If Q shows up = ready
@@ -257,11 +297,15 @@ def compute_attacking_pairs(state):
 	
 	return number_attacking_pairs
 
+
 '''
 The basic hill-climing algorithm for n queens
 '''
 def hill_desending_n_queens(state, comp_att_pairs):
 	final_state = []
+	
+	
+	
 	
 	
 	#Copy state into ORI state for safe keeping
@@ -276,12 +320,17 @@ def hill_desending_n_queens(state, comp_att_pairs):
 	
 	n = len(state)
 	nLimit = n-1
+	#base case
+	if n == 0:
+		return []
+	
+	
 	
 	prevConflicts = oriConflicts
-	minCol = n + 1
-	minRow = n + 1
+	minCol = 0
+	minRow = state[minCol] - 1
 	
-	minConflicts = oriConflicts -1
+	minConflicts = oriConflicts - 1
 	while (1):
 		print("START ITERATION")
 		colStateIndex = 0
@@ -293,14 +342,14 @@ def hill_desending_n_queens(state, comp_att_pairs):
 			# for each column in state[]
 			print(">> Column " + str(colStateIndex) + " of " + str(nLimit))
 			potentialRow = 0
-			originalValue = state[colStateIndex]
+			originalValue = state[colStateIndex] - 1
 			
 			
 			# print ("State RESET: " + str(state))
 			
 			while potentialRow <= nLimit:
 				
-				state[colStateIndex] = potentialRow
+				state[colStateIndex] = potentialRow + 1
 				# print state
 				#keep track of minimum x value (change variable names after)
 				tempMin = comp_att_pairs(state)
@@ -315,7 +364,7 @@ def hill_desending_n_queens(state, comp_att_pairs):
 			
 			minTuple = (minConflicts, "@", minRow, minCol)
 			print(">>> So far the minimum is: " + str(minTuple))
-			state[colStateIndex] = originalValue
+			state[colStateIndex] = originalValue + 1
 			colStateIndex+= 1
 		
 		
@@ -323,14 +372,14 @@ def hill_desending_n_queens(state, comp_att_pairs):
 		newState = []
 		for i in range(len(state)):
 			newState.append(state[i])
-			
-		newState[minCol] = minRow
+		 
+		newState[minCol] = minRow+1
 		
 		print("Changing states from " + str(state) + " to " + str(newState))
 		print("Conflicts lowered from " + str(comp_att_pairs(state)) + " to " + str(comp_att_pairs(newState)))
 		
 		#Keep this
-		state[minCol] = minRow
+		state[minCol] = minRow+1
 		if (minConflicts == 0):
 			print("Broken with 0")
 			break
@@ -340,28 +389,8 @@ def hill_desending_n_queens(state, comp_att_pairs):
 		else:
 			prevConflicts = minConflicts
 		
-	print("BROKEN :D")
-	
-	'''
-	> Create empty table based on len(state) x len(state) size
-	
-	> Loop through table and fill out 'potential' numbers
-	
-	while (each column)
-		while(each row)
-			coordinate = (row,col)
-			newState = [ replace row value for each iteration ]
-			attacks = compute_attacking_pairs(newState)
-			potentialTable[r][c] = attacks
-			
-			
-			keep going until every place is filled out
-	
-	> By this point you will have a table for the FIRST state array about what happens when you move a queen up or down
-	
-	> now idk what to do.
-	'''
-	
+	print("Hill descending ends here!")
+
 	
 	return state
 
@@ -371,9 +400,14 @@ Hill-climing algorithm for n queens with restart
 def n_queens(n, get_rand_st, comp_att_pairs, hill_descending):
 	final_state = []
 	# Your code here
-	
-	conflicts = n * n
-	while (conflicts != 0):
+	conflicts = comp_att_pairs(final_state)
+	if (n > 3):
+		while (conflicts != 0):
+			print("RESET!!")
+			state = get_random_state(n)
+			final_state = hill_descending(state, comp_att_pairs)
+			conflicts = comp_att_pairs(final_state)
+	else:
 		state = get_random_state(n)
 		final_state = hill_descending(state, comp_att_pairs)
 		conflicts = comp_att_pairs(final_state)

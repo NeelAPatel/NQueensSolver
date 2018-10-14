@@ -77,57 +77,57 @@ def _graph_search(graph, start_node_id, goal_node_id, _add_to_queue, is_queue_em
 
 
 if __name__ == "__main__":
-    # print "Graph search result dump"
-    #
-    # # DFS
-    # graph = _get_test_graph_admissible()
-    # (expansion_count, cost, path) = _graph_search(graph, 1, 5, mp.add_to_queue_DFS,
-    #     mp.is_queue_empty_DFS, mp.pop_front_DFS, _heuristic_zero)
-    # print "DFS path: " + str(path) + ", cost: " + str(cost) + ", #expansions: " \
-    #     + str(expansion_count)
-    #
-    # # BFS
-    # graph = _get_test_graph_admissible()
-    # (expansion_count, cost, path) = _graph_search(graph, 1, 5, mp.add_to_queue_BFS,
-    #     mp.is_queue_empty_BFS, mp.pop_front_BFS, _heuristic_zero)
-    # print "BFS path: " + str(path) + ", cost: " + str(cost) + ", #expansions: " \
-    #     + str(expansion_count)
-    #
-    # # UC
-    # graph = _get_test_graph_admissible()
-    # (expansion_count, cost, path) = _graph_search(graph, 1, 5, mp.add_to_queue_UC,
-    #     mp.is_queue_empty_UC, mp.pop_front_UC, _heuristic_zero)
-    # print "UC path: " + str(path) + ", cost: " + str(cost) + ", #expansions: " \
-    #     + str(expansion_count)
-    #
-    # # A* admissible
-    # graph = _get_test_graph_admissible()
-    # (expansion_count, cost, path) = _graph_search(graph, 1, 5, mp.add_to_queue_ASTAR,
-    #     mp.is_queue_empty_ASTAR, mp.pop_front_ASTAR, _heuristic_function)
-    # print "A* (admissible) path: " + str(path) + ", cost: " + str(cost) \
-    #       + ", #expansions: " + str(expansion_count)
-    #
-    # # A* consistent
-    # graph = _get_test_graph_consistent()
-    # (expansion_count, cost, path) = _graph_search(graph, 1, 5, mp.add_to_queue_ASTAR,
-    #     mp.is_queue_empty_ASTAR, mp.pop_front_ASTAR, _heuristic_function)
-    # print "A* (consistent) path: " + str(path) + ", cost: " + str(cost)  \
-    #       + ", #expansions: " + str(expansion_count)
+    print "Graph search result dump"
+
+    # DFS
+    graph = _get_test_graph_admissible()
+    (expansion_count, cost, path) = _graph_search(graph, 1, 5, mp.add_to_queue_DFS,
+        mp.is_queue_empty_DFS, mp.pop_front_DFS, _heuristic_zero)
+    print "DFS path: " + str(path) + ", cost: " + str(cost) + ", #expansions: " \
+        + str(expansion_count)
+
+    # BFS
+    graph = _get_test_graph_admissible()
+    (expansion_count, cost, path) = _graph_search(graph, 1, 5, mp.add_to_queue_BFS,
+        mp.is_queue_empty_BFS, mp.pop_front_BFS, _heuristic_zero)
+    print "BFS path: " + str(path) + ", cost: " + str(cost) + ", #expansions: " \
+        + str(expansion_count)
+
+    # UC
+    graph = _get_test_graph_admissible()
+    (expansion_count, cost, path) = _graph_search(graph, 1, 5, mp.add_to_queue_UC,
+        mp.is_queue_empty_UC, mp.pop_front_UC, _heuristic_zero)
+    print "UC path: " + str(path) + ", cost: " + str(cost) + ", #expansions: " \
+        + str(expansion_count)
+
+    # A* admissible
+    graph = _get_test_graph_admissible()
+    (expansion_count, cost, path) = _graph_search(graph, 1, 5, mp.add_to_queue_ASTAR,
+        mp.is_queue_empty_ASTAR, mp.pop_front_ASTAR, _heuristic_function)
+    print "A* (admissible) path: " + str(path) + ", cost: " + str(cost) \
+          + ", #expansions: " + str(expansion_count)
+
+    # A* consistent
+    graph = _get_test_graph_consistent()
+    (expansion_count, cost, path) = _graph_search(graph, 1, 5, mp.add_to_queue_ASTAR,
+        mp.is_queue_empty_ASTAR, mp.pop_front_ASTAR, _heuristic_function)
+    print "A* (consistent) path: " + str(path) + ", cost: " + str(cost)  \
+          + ", #expansions: " + str(expansion_count)
 
     print
-    print "The n-queens problem" 
+    print "The n-queens problem"
 
-    n = 30
+    n = 4
     # Get a basic state
     state = mp.get_random_state(n)
     print "A random state: " + str(state) + ", conflicting pairs: " + str(mp.compute_attacking_pairs(state))
 
-    # Call hill-climbing once 
+    # Call hill-climbing once
     new_state = mp.hill_desending_n_queens(state, mp.compute_attacking_pairs)
     print "Final state after hill-climbing: " + str(new_state) + ", conflicting pairs: " \
           + str(mp.compute_attacking_pairs(new_state))
 
-    # Get a fully solved state for a given n    
+    # Get a fully solved state for a given n
     print "A valid solution: " + str(mp.n_queens(n,
         mp.get_random_state, mp.compute_attacking_pairs,mp.hill_desending_n_queens))
 
