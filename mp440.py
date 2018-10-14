@@ -400,15 +400,15 @@ Hill-climing algorithm for n queens with restart
 def n_queens(n, get_rand_st, comp_att_pairs, hill_descending):
 	final_state = []
 	# Your code here
-	conflicts = comp_att_pairs(final_state)
+	conflicts = n
 	if (n > 3):
 		while (conflicts != 0):
 			print("RESET!!")
-			state = get_random_state(n)
+			state = get_rand_st(n)
 			final_state = hill_descending(state, comp_att_pairs)
 			conflicts = comp_att_pairs(final_state)
 	else:
-		state = get_random_state(n)
+		state = get_rand_st(n)
 		final_state = hill_descending(state, comp_att_pairs)
 		conflicts = comp_att_pairs(final_state)
 	
